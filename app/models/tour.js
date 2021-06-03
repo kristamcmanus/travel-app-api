@@ -1,11 +1,15 @@
 const mongoose = require('mongoose')
 const commentSchema = require('./comment')
-const postSchema = new mongoose.Schema({
-  title: {
+const tourSchema = new mongoose.Schema({
+  name: {
     type: String,
     required: true
   },
-  body: {
+  description: {
+    type: String,
+    required: true
+  },
+  date: {
     type: String,
     required: true
   },
@@ -18,4 +22,4 @@ const postSchema = new mongoose.Schema({
 {
   timestamps: true
 })
-module.exports = mongoose.model('Post', postSchema)
+module.exports = mongoose.model('Tour', tourSchema)

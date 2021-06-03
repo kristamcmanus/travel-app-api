@@ -4,8 +4,8 @@ const express = require('express')
 // creating a router for this file
 const router = express.Router()
 
-// require the Post model so we can interact with our database
-const Post = require('../models/post')
+// require the Tour model so we can interact with our database
+const Tour = require('../models/tour')
 
 // require our function to handle 404 errors
 const handle404 = require('../../lib/custom_errors')
@@ -19,22 +19,22 @@ router.post('/comments', requireToken, (req, res, next) => {
   const commentData = req.body.comment
   commentData.owner = req.user.id
 
-  // extract the postId from the comment data
-  const postId = commentData.postId
+  // extract the tourId from the comment data
+  const tourId = commentData.tourId
 
-  // find the post by its id
-  Post.findById(postId)
+  // find the tour by its id
+  Tour.findById(tourId)
     .then(handle404)
-    .then(post => {
+    .then(tour => {
       // create a new comment in the comments subdocument array using the
       // request's commentData
-      post.comments.push(commentData)
+      tour.comments.push(commentData)
 
-      // save the post (which saves the new comment)
-      return post.save()
+      // save the tour (which saves the new comment)
+      return tour.save()
     })
-    // responding with the updated post that includes our new comment
-    .then(post => res.status(201).json({ post }))
+    // responding with the updated tour that includes our new comment
+    .then(tour => res.status(201).json({ tour }))
     .catch(next)
 })
 
@@ -42,18 +42,18 @@ router.delete('/comments/:commentId', requireToken, (req, res, next) => {
   // extract the comment's id from the url
   const commentId = req.params.commentId
 
-  // extracting the post's id from the incoming request's data
-  const postId = req.body.comment.postId
+  // extracting the tour's id from the incoming request's data
+  const tourId = req.body.comment.tourId
 
-  Post.findById(postId)
+  Tour.findById(tourId)
     .then(handle404)
-    .then(post => {
-      // select the comment subdocument with the id `commentId` (post.comments.id(commentId))
+    .then(tour => {
+      // select the comment subdocument with the id `commentId` (tour.comments.id(commentId))
       // then remove it (delete it)
-      post.comments.id(commentId).remove()
+      tour.comments.id(commentId).remove()
 
       // save our deletion
-      return post.save()
+      return tour.save()
     })
     // if successfully deleted, respond with 204 No Content
     .then(() => res.sendStatus(204))
@@ -65,18 +65,18 @@ router.patch('/comments/:commentId', requireToken, (req, res, next) => {
 
   // extract the comment data from our request's body
   const commentData = req.body.comment
-  const postId = commentData.postId
+  const tourId = commentData.tourId
 
-  Post.findById(postId)
+  Tour.findById(tourId)
     .then(handle404)
-    .then(post => {
+    .then(tour => {
       // select the comment with the id `commentId`
-      const comment = post.comments.id(commentId)
+      const comment = tour.comments.id(commentId)
 
       // update our comment, with the incoming request's data (commentData)
       comment.set(commentData)
-      // save our changes, by saving the post
-      return post.save()
+      // save our changes, by saving the tour
+      return tour.save()
     })
     .then(() => res.sendStatus(204))
 })
