@@ -10,7 +10,7 @@ curl "${API}${URL_PATH}/${ID}" \
   --header "Content-Type: application/json" \
   --data '{
     "comment": {
-      "postId": "'"${POST_ID}"'"
+      "tourId": "'"${TOUR_ID}"'"
     }
   }'
 
