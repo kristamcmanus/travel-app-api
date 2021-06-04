@@ -9,6 +9,10 @@ const tourSchema = new mongoose.Schema({
     type: String,
     required: true
   },
+  image: {
+    data: Buffer,
+    contentType: String
+  },
   date: {
     type: String,
     required: true
@@ -23,3 +27,29 @@ const tourSchema = new mongoose.Schema({
   timestamps: true
 })
 module.exports = mongoose.model('Tour', tourSchema)
+
+// const mongoose = require('mongoose')
+//
+// const tourSchema = new mongoose.Schema({
+//   name: {
+//     type: String,
+//     required: true
+//   },
+//   description: {
+//     type: String,
+//     required: true
+//   },
+//   date: {
+//     type: String,
+//     required: true
+//   },
+//   owner: {
+//     type: mongoose.Schema.Types.ObjectId,
+//     ref: 'User',
+//     required: true
+//   }
+// }, {
+//     timestamps: true
+// })
+//
+// module.exports = mongoose.model('Tour', tourSchema)
