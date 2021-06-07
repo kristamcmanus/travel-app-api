@@ -1,11 +1,15 @@
 const mongoose = require('mongoose')
 const commentSchema = require('./comment')
 const tourSchema = new mongoose.Schema({
-  name: {
+  city: {
     type: String,
     required: true
   },
   description: {
+    type: String,
+    required: true
+  },
+  host: {
     type: String,
     required: true
   },

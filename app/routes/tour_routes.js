@@ -43,6 +43,22 @@ router.get('/tours', requireToken, (req, res, next) => {
     .catch(next)
 })
 
+// INDEX
+// GET /my-reservations
+router.get('/my-reservations', requireToken, (req, res, next) => {
+  Tour.find()
+    .then(tours => {
+      // `tours` will be an array of Mongoose documents
+      // we want to convert each one to a POJO, so we use `.map` to
+      // apply `.toObject` to each one
+      return tours.map(tour => tour.toObject())
+    })
+    // respond with status 200 and JSON of the tours
+    .then(tours => res.status(200).json({ tours: tours }))
+    // if an error occurs, pass it to the handler
+    .catch(next)
+})
+
 // SHOW
 // GET /tours/5a7db6c74d55bc51bdf39793
 router.get('/tours/:id', requireToken, (req, res, next) => {
